@@ -29,6 +29,7 @@ body {
 .inputBox > input {
     font-size: 30px;
     border: none;
+    width: 100%;
 }
 
 .inputBox > input:focus{

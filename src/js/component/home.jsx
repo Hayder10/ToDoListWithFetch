@@ -4,8 +4,44 @@ import Task from "./Task.jsx";
 //create your first component
 const Home = () => {
 	const [tasks,setTasks] = useState([])
-	const taskNumber = useRef(0)
+	const taskNumber = useRef()
 	const [text,setText] = useState("")
+
+	//Get TODO's from API
+	fetch('http://assets.breatheco.de/apis/fake/todos/user/hayder10')
+	.then(response => {
+		return response.json()
+	})
+	.then(data => {
+		var tasks = []
+		data.forEach((value) => {!value.done ?  tasks.push(value.label) : null})
+		setTasks(tasks)
+		taskNumber.current = tasks.length
+	})
+	.catch(error => {
+		console.log(error)
+	})
+
+	//POST Task to API
+	const postTasks = () => {
+		var arrayToSend = []
+		tasks.map((value) => {
+			arrayToSend.push({
+				"label" : value,
+				"done": false
+			})
+		})
+		
+		//Fetch PUT
+		fetch('http://assets.breatheco.de/apis/fake/todos/user/hayder10',{
+			method: "PUT",
+			body: JSON.stringify(arrayToSend),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+	}
+
 
 	const handleKeyDown = (e) => {
 		if(e.key === "Enter" && text !== ""){
@@ -15,7 +51,7 @@ const Home = () => {
 			new_tasks.push(text)
 			setText("")
 			setTasks(new_tasks)
-			taskNumber.current = taskNumber.current + 1;
+			postTasks()
 		}else if (e.key === "Enter"){
 			console.log("Error! Add a task first!")
 		}
@@ -24,7 +60,23 @@ const Home = () => {
 	const handleClick = (index) => {
 		tasks.splice(index,1);
 		setTasks([...tasks])
-		taskNumber.current = taskNumber.current - 1
+		var arrayToSend = []
+		tasks.map((value) => {
+			arrayToSend.push({
+				"label" : value,
+				"done": false
+			})
+		})
+		
+		//Fetch PUT
+		fetch('http://assets.breatheco.de/apis/fake/todos/user/hayder10',{
+			method: "PUT",
+			body: JSON.stringify(arrayToSend),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+		taskNumber.current = tasks.length
 	}
 
 
