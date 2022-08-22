@@ -64,3 +64,17 @@ body {
     background-color: darkgray;
     border: none;
 }
+
+.emptyTask{
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    color:  gray;
+    font-style: italic;
+}
+.footer{
+    border-top: 2px solid lightgray;
+    font-size: 20px;
+    color: gray;
+    font-style: italic;
+}
